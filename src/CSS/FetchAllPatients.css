@@ -1,0 +1,58 @@
+.fetch-all-patients-container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .loading {
+    text-align: center;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .error {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+  }
+  
+  .no-data {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+  }
+  
+  .patients-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  .patients-table th,
+  .patients-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .patients-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .patients-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .patients-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .patients-table td {
+    color: #555;
+  }
+  

@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  height: 100px;
+  background-color: #C4A381;
 }
 
 .App-logo {
@@ -22,6 +24,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+
+}
+
+.content-wrap {
+  flex: 1;
 }
 
 .App-link {
@@ -36,3 +43,8 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  min-height: 500vh;
+}
+
