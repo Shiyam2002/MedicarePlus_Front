@@ -41,7 +41,7 @@ export default class Footer extends Component {
           left: 0,
           width: '100%',
           transition: 'bottom 0.5s ease',
-          backgroundColor: '#B2675E',
+          backgroundColor: '#000000 ',
           color: '#EEF1BD',
           textAlign: 'center',
           padding: '10px',

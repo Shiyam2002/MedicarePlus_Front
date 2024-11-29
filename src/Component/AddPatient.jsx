@@ -38,12 +38,11 @@ export default class AddPatient extends Component {
       errors.patientName = "Patient Name is required and must contain only letters.";
     if (!phoneRegex.test(this.state.patientPhone))
       errors.patientPhone = "Enter a valid 10-digit phone number.";
-    if (!this.state.patientEmail.trim() || !emailRegex.test(this.state.patientEmail))
-    {
+    if (!this.state.patientEmail.trim() || !emailRegex.test(this.state.patientEmail)) {
       errors.patientEmail = "Enter a valid email address.";
       console.log("Email validation error:", errors.patientEmail);
     }
-    if (!this.state.patientDob)
+    if (!this.state.patientDob || new Date(this.state.patientDob) >= new Date())
       errors.patientDob = "Date of Birth is required.";
     if (!this.state.employmentStatus.trim())
       errors.employmentStatus = "Employment Status is required.";
@@ -294,7 +293,7 @@ export default class AddPatient extends Component {
                   value={this.state.cityID}
                   onChange={this.handleChange}
                   isInvalid={!!errors.cityID}>
-                   <option value="">Select City</option>
+                  <option value="">Select City</option>
                   <option value="1">Chennai</option>
                   <option value="2">Chennai</option>
                   <option value="3">Bangalore</option>
@@ -317,11 +316,11 @@ export default class AddPatient extends Component {
                   value={this.state.stateID}
                   onChange={this.handleChange}
                   isInvalid={!!errors.stateID}>
-                     <option value="">Select State</option>
+                  <option value="">Select State</option>
                   <option value="1">Tamil Nadu</option>
                   <option value="2">Karnataka</option>
                   <option value="3">Kerala</option>
-                  </Form.Control>
+                </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.stateID}</Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -336,11 +335,11 @@ export default class AddPatient extends Component {
                   value={this.state.countryID}
                   onChange={this.handleChange}
                   isInvalid={!!errors.countryID}>
-                    <option value="">Select Country</option>
+                  <option value="">Select Country</option>
                   <option value="1">India</option>
                   <option value="2">USA</option>
                   <option value="3">UK</option>
-                  </Form.Control>
+                </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.countryID}</Form.Control.Feedback>
               </Form.Group>
             </Col>
