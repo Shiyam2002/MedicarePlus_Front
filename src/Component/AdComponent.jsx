@@ -1,62 +1,77 @@
 import React, { Component } from 'react';
 
-class AdComponent extends Component {
+class HospitalAdComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      randomAd: null,
+      currentAdIndex: 0,
     };
     this.ads = [
       {
         id: 1,
-        title: "Get your insurance covered",
-        description: "Special offer on all insurancess",
-        image: "/insurance.jpg", // Image from the public folder
+        title: "State-of-the-Art Facilities",
+        description: "Experience world-class treatment at our hospital.",
+        image: "/hospital1.png", // Image from the public folder
       },
       {
         id: 2,
-        title: "Get your insurance covered",
-        description: "Special offer on all insurancess",
-        image: "/insurance.jpg", // Example external image
+        title: "24/7 Emergency Services",
+        description: "Our emergency room is always open for you.",
+        image: "/hospital2.png", // Example external image
       },
       {
         id: 3,
-        title: "Get your insurance covered",
-        description: "Special offer on all insurancess",
-        image: "/insurance.jpg", // Example external image
+        title: "Compassionate Care",
+        description: "Our team of specialists provides personalized care.",
+        image: "/hospital3.png", // Example external image
       },
       {
         id: 4,
-        title: "Get your insurance covered",
-        description: "Special offer on all insurancess",
-        image: "/insurance.jpg", // Example external image
-      }
+        title: "Advanced Diagnostics",
+        description: "Accurate and timely diagnosis for effective treatment.",
+        image: "/hospital4.png", // Example external image
+      },
+      {
+        id: 5,
+        title: "Health Checkup Packages",
+        description: "Affordable and comprehensive health packages.",
+        image: "/hospital5.jpg", // Example external image
+      },
     ];
   }
 
-  // Function to select a random ad
-  getRandomAd = () => {
-    const randomIndex = Math.floor(Math.random() * this.ads.length);
-    this.setState({
-      randomAd: this.ads[randomIndex],
-    });
-  };
-
-  // Show a random ad when the component mounts
+  // Change ad every 30 seconds
   componentDidMount() {
-    this.getRandomAd();
+    this.adInterval = setInterval(this.nextAd, 10000); // 30 seconds
   }
 
+  componentWillUnmount() {
+    clearInterval(this.adInterval);
+  }
+
+  // Show the next ad in the array
+  nextAd = () => {
+    this.setState((prevState) => ({
+      currentAdIndex: (prevState.currentAdIndex + 1) % this.ads.length,
+    }));
+  };
+
   render() {
-    const { randomAd } = this.state;
+    const { currentAdIndex } = this.state;
+    const currentAd = this.ads[currentAdIndex];
 
     return (
-      <div className="ad-container">
-        {randomAd && (
+      <div className="ad-container mt-4">
+        {currentAd && (
           <div className="ad-card">
-            <h3>{randomAd.title}</h3>
-            <img src={randomAd.image} alt={randomAd.title} className="img-fluid" style={{ width: '100%', maxWidth: '300px', height: 'auto' }} />
-            <p>{randomAd.description}</p>
+            <h3>{currentAd.title}</h3>
+            <img
+              src={currentAd.image}
+              alt={currentAd.title}
+              className="img-fluid"
+              style={{ width: '100%', maxWidth: '300px', height: 'auto' }}
+            />
+            <p>{currentAd.description}</p>
           </div>
         )}
       </div>
@@ -64,4 +79,4 @@ class AdComponent extends Component {
   }
 }
 
-export default AdComponent;
+export default HospitalAdComponent;

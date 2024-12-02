@@ -28,7 +28,7 @@ export default class Footer extends Component {
     }
   };
 
-  
+
 
   render() {
     const { isFooterVisible } = this.state;

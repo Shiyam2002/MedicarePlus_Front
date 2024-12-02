@@ -11,6 +11,42 @@ export default class FetchAllPatients extends Component {
     };
   }
 
+  // Mapping of city, state, and country IDs to names
+  cityMap = {
+    1: "Salem",
+    2: "Chennai",
+    3: "Bangalore",
+    4: "Mysore",
+    5: "Trivandrum",
+    6: "Kochi",
+    7: "Mumbai",
+    8: "Pune",
+    9: "Ahmedabad",
+    10: "Surat"
+  };
+
+  stateMap = {
+    1: "Tamil Nadu",
+    2: "Karnataka",
+    3: "Kerala",
+    4: "Maharashtra",
+    5: "Gujarat"
+  };
+
+  countryMap = {
+    1: "India",
+    2: "USA",
+    3: "UK"
+  };
+
+  // Function to replace city, state, and country IDs with their respective names
+  getFullAddress = (address) => {
+    const cityName = this.cityMap[address.cityID] || "Unknown City";
+    const stateName = this.stateMap[address.stateID] || "Unknown State";
+    const countryName = this.countryMap[address.countryID] || "Unknown Country";
+    return `${address.patientDoor}, ${address.patientStreet}, ${cityName}, ${stateName}, ${countryName}`;
+  };
+
   fetchAllPatients = () => {
     this.setState({ loading: true, error: null });
 
@@ -34,8 +70,18 @@ export default class FetchAllPatients extends Component {
 
     fetchPatientsPromise
       .then((patients) => {
+        // Update patient addresses with the full address names
+        const updatedPatients = patients.map(patient => {
+          return {
+            ...patient,
+            address: {
+              ...patient.address,
+              fullAddress: this.getFullAddress(patient.address),
+            }
+          };
+        });
         this.setState({
-          patients,
+          patients: updatedPatients,
           loading: false,
         });
       })
@@ -104,8 +150,7 @@ export default class FetchAllPatients extends Component {
                       <strong>Annual Income:</strong> {patient.annualIncome}
                     </p>
                     <p>
-                      <strong>Address:</strong>{" "}
-                      {`${patient.address.patientDoor}, ${patient.address.patientStreet}, ${patient.address.cityID}, ${patient.address.stateID}, ${patient.address.countryID}`}
+                      <strong>Address:</strong> {patient.address.fullAddress}
                     </p>
                     <p>
                       <strong>Insurance:</strong>

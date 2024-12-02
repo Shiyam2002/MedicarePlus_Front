@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavLink } from "react-router-dom";
+import Footer from "./Footer";
 
 export default class LandingPage extends Component {
   render() {
@@ -104,7 +105,7 @@ export default class LandingPage extends Component {
               <div className="col-md-4 text-center mb-4">
                 <div className="p-4 border rounded shadow-sm">
                   <h5>Step 1</h5>
-                  <p>Register on our platform with basic personal details.</p>
+                  <p>Register on our platform with easy process.</p>
                 </div>
               </div>
               <div className="col-md-4 text-center mb-4">
@@ -183,9 +184,8 @@ export default class LandingPage extends Component {
         </section>
 
         {/* Footer Section */}
-        <footer className="text-center bg-black text-white py-3">
-          <p>&copy; 2024 MediCare+. All rights reserved.</p>
-        </footer>
+        <Footer />
+
       </div>
     );
   }

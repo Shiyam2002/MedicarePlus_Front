@@ -10,7 +10,7 @@ class NaviBar extends Component {
           style={{
             width: '70px',
             height: '70px',
-            backgroundColor: '#644536', 
+            backgroundColor: '#644536',
             color: '#BBD686',
             fontWeight: 'bold',
           }}
@@ -21,8 +21,8 @@ class NaviBar extends Component {
           className="d-flex justify-content-center align-items-center"
           style={{
             height: '70px',
-            backgroundColor: '#644536', 
-            width:'100%',
+            backgroundColor: '#644536',
+            width: '100%',
             color: '#BBD686',
             fontWeight: 'bold',
           }}

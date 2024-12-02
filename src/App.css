@@ -5,12 +5,13 @@
   flex-direction: column;
 }
 
-body{
-  min-height: 150vh;
+body {
+  min-height: 400vh;
 }
 
 .App-logo {
-  height: 30vmin; /* Reduced logo size */
+  height: 30vmin;
+  /* Reduced logo size */
   pointer-events: none;
 }
 
@@ -21,7 +22,8 @@ body{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(8px + 1.5vmin); /* Smaller font size */
+  font-size: calc(8px + 1.5vmin);
+  /* Smaller font size */
   color: white;
 }
 
@@ -37,6 +39,7 @@ body{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -44,8 +47,10 @@ body{
 
 /* Sidebar navigation styling */
 .nav-link {
-  padding: 0.8rem 1.2rem; /* Reduced padding */
-  border-radius: 6px; /* Smaller rounded edges */
+  padding: 0.8rem 1.2rem;
+  /* Reduced padding */
+  border-radius: 6px;
+  /* Smaller rounded edges */
   transition: all 0.3s ease;
 }
 
@@ -53,16 +58,20 @@ body{
 .nav-link:hover {
   background-color: #404040;
   color: #ffffff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  border-radius: 8px; /* Slightly more rounded on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+  border-radius: 8px;
+  /* Slightly more rounded on hover */
 }
 
 /* Sidebar Styling */
 .sidebar {
   background-color: #343a40;
   color: white;
-  padding: 15px; /* Reduced padding */
-  border-radius: 15px; /* Smaller curved edges */
+  padding: 15px;
+  /* Reduced padding */
+  border-radius: 15px;
+  /* Smaller curved edges */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   height: 100%;
   overflow-y: auto;
@@ -75,15 +84,18 @@ body{
 }
 
 .sidebar .nav-item {
-  margin-bottom: 12px; /* Reduced space between items */
+  margin-bottom: 12px;
+  /* Reduced space between items */
 }
 
 .nav-link {
-  padding: 0.8rem 1rem; /* More compact links */
+  padding: 0.8rem 1rem;
+  /* More compact links */
   border-radius: 6px;
   display: block;
   color: #fff;
-  font-size: 0.9rem; /* Smaller font size */
+  font-size: 0.9rem;
+  /* Smaller font size */
 }
 
 /* Hover effect for sidebar links */
@@ -102,34 +114,4 @@ body{
 .container-fluid {
   padding-left: 0;
   padding-right: 0;
-}
-
-.main-content {
-  background-color: white;
-}
-
-.bg-dark {
-  background-color: #343a40 !important;
-}
-
-.bg-light-gray {
-  background-color: #f8f9fa !important;
-}
-
-.footer {
-  background-color: #343a40;
-  color: white;
-  padding: 0.8rem; /* Smaller padding */
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-.ad-section {
-  background-color: #eef1bd;
-  color: #b2675e;
-  padding: 8px; /* Smaller padding */
-  text-align: center;
-  margin-top: 15px; /* Reduced margin */
 }

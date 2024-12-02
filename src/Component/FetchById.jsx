@@ -35,6 +35,34 @@ export default class FetchPatientById extends Component {
     };
   }
 
+  // Mappings for city, state, and country IDs
+  cityMapping = {
+    1: "Salem",
+    2: "Chennai",
+    3: "Bangalore",
+    4: "Mysore",
+    5: "Trivandrum",
+    6: "Kochi",
+    7: "Mumbai",
+    8: "Pune",
+    9: "Ahmedabad",
+    10: "Surat",
+  };
+
+  stateMapping = {
+    1: "Tamil Nadu",
+    2: "Karnataka",
+    3: "Kerala",
+    4: "Maharashtra",
+    5: "Gujarat",
+  };
+
+  countryMapping = {
+    1: "India",
+    2: "USA",
+    3: "UK",
+  };
+
   // Function to fetch patient by ID using Promise
   fetchPatientById = (id) => {
     this.setState({ loading: true, error: null, responseMessage: "", status: "" }); // Reset loading and errors
@@ -51,8 +79,20 @@ export default class FetchPatientById extends Component {
         .then((data) => {
           const { Response, Status, Data } = data;
 
+          // Map the city, state, and country IDs to their names
+          const patientDetails = Data || this.state.patientDetails;
+          const updatedPatientDetails = {
+            ...patientDetails,
+            address: {
+              ...patientDetails.address,
+              cityID: this.cityMapping[patientDetails.address.cityID] || "Unknown City",
+              stateID: this.stateMapping[patientDetails.address.stateID] || "Unknown State",
+              countryID: this.countryMapping[patientDetails.address.countryID] || "Unknown Country",
+            },
+          };
+
           this.setState({
-            patientDetails: Data || this.state.patientDetails,
+            patientDetails: updatedPatientDetails,
             responseMessage: Response,
             status: Status,
             loading: false,
@@ -112,7 +152,7 @@ export default class FetchPatientById extends Component {
 
         {loading && <p className="loading">Loading...</p>} {/* Show loading state */}
         {error && <p className="error">{error}</p>} {/* Show error message */}
-        
+
         {/* Show Response and Status from API */}
         {responseMessage && <p className="responseMessage"><strong>Response:</strong> {responseMessage}</p>}
         {status && <p className="responseMessage"><strong>Status:</strong> {status}</p>}
@@ -134,9 +174,9 @@ export default class FetchPatientById extends Component {
               <h3>Address</h3>
               <p><strong>Door:</strong> {patientDetails.address.patientDoor}</p>
               <p><strong>Street:</strong> {patientDetails.address.patientStreet}</p>
-              <p><strong>City ID:</strong> {patientDetails.address.cityID}</p>
-              <p><strong>State ID:</strong> {patientDetails.address.stateID}</p>
-              <p><strong>Country ID:</strong> {patientDetails.address.countryID}</p>
+              <p><strong>City:</strong> {patientDetails.address.cityID}</p>
+              <p><strong>State:</strong> {patientDetails.address.stateID}</p>
+              <p><strong>Country:</strong> {patientDetails.address.countryID}</p>
 
               {/* Insurance Details */}
               <h3>Insurance</h3>
@@ -151,4 +191,3 @@ export default class FetchPatientById extends Component {
     );
   }
 }
-  

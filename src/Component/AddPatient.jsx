@@ -124,7 +124,7 @@ export default class AddPatient extends Component {
         return response.json();
       })
       .then((result) => {
-        alert("Patient details saved successfully!");
+       // alert("Patient details saved successfully!");
         console.log(result);
         this.setState({
           patientName: "",
@@ -294,10 +294,16 @@ export default class AddPatient extends Component {
                   onChange={this.handleChange}
                   isInvalid={!!errors.cityID}>
                   <option value="">Select City</option>
-                  <option value="1">Chennai</option>
+                  <option value="1">Salem</option>
                   <option value="2">Chennai</option>
                   <option value="3">Bangalore</option>
-                  <option value="4">Trivandrum</option>
+                  <option value="4">Mysore</option>
+                  <option value="5">Trivandrum</option>
+                  <option value="6">Kochi</option>
+                  <option value="7">Mumbai</option>
+                  <option value="8">Pune</option>
+                  <option value="9">Ahmedabad</option>
+                  <option value="10">Surat</option>
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.cityID}</Form.Control.Feedback>
               </Form.Group>
@@ -320,6 +326,8 @@ export default class AddPatient extends Component {
                   <option value="1">Tamil Nadu</option>
                   <option value="2">Karnataka</option>
                   <option value="3">Kerala</option>
+                  <option value="4">Maharashtra</option>
+                  <option value="5">Gujarat</option>
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.stateID}</Form.Control.Feedback>
               </Form.Group>

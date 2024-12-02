@@ -103,13 +103,15 @@ export default class LoginPage extends Component {
         <div className="d-flex flex-column flex-lg-row" style={{ height: "calc(100vh - 80px)" }}>
           {/* Left Section */}
           <div
-            style={{
-              flex: "7",
-              backgroundImage: "url('https://via.placeholder.com/700x500')", // Replace with actual image URL
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          ></div>
+
+
+          >
+            <img src="rb_739.png" style={{
+              width: "800px",
+              height: "500px"
+            }}></img>
+
+          </div>
 
           {/* Right Section */}
           <div
