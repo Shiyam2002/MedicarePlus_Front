@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Col, Row, Form, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../CSS/AddPatient.css";
 
 export default class AddPatient extends Component {
   constructor(props) {
@@ -29,25 +30,48 @@ export default class AddPatient extends Component {
   validateFields = () => {
     const errors = {};
 
+    //regex
     const nameRegex = /^[a-zA-Z\s]+$/;
     const phoneRegex = /^\d{10}$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const numberRegex = /^[0-9]+$/;
 
-    if (!this.state.patientName.trim() || !nameRegex.test(this.state.patientName))
-      errors.patientName = "Patient Name is required and must contain only letters.";
+    //Patient name validations
+    if (!this.state.patientName.trim())
+      errors.patientName = "Patient Name is Required";
+    if(!nameRegex.test(this.state.patientName))
+      errors.patientName = "Patient Name must contain only letters.";
+
+    //Patient Phone Number Validations
+    if(!this.state.patientPhone.trim())
+      errors.patientPhone = "Phone Number is Required";
     if (!phoneRegex.test(this.state.patientPhone))
-      errors.patientPhone = "Enter a valid 10-digit phone number.";
-    if (!this.state.patientEmail.trim() || !emailRegex.test(this.state.patientEmail)) {
-      errors.patientEmail = "Enter a valid email address.";
-      console.log("Email validation error:", errors.patientEmail);
+      errors.patientPhone = "Enter a valid 10-digit phone number";
+
+    //Patient Email Validations
+    if(!emailRegex.test(this.state.patientEmail))
+      errors.patientEmail = "Enter a valid email address";
+    if (!this.state.patientEmail.trim()) {
+      errors.patientEmail = "Email is Required";
     }
-    if (!this.state.patientDob || new Date(this.state.patientDob) >= new Date())
+
+    //DoB Validations
+    if(new Date(this.state.patientDob) >= new Date())
+      errors.patientDob = "DoB can't be in Future Dates"
+    if (!this.state.patientDob)
       errors.patientDob = "Date of Birth is required.";
+
+    //Employment Status Validation
     if (!this.state.employmentStatus.trim())
       errors.employmentStatus = "Employment Status is required.";
-    if (!numberRegex.test(this.state.annualIncome) || parseFloat(this.state.annualIncome) <= 0)
-      errors.annualIncome = "Annual Income must be a valid number greater than 0.";
+
+    //Annual Income Validations
+    if(parseFloat(this.state.annualIncome) <= 0)
+      errors.annualIncome = "Annual Income must be a valid number greater than 0";
+    if (!numberRegex.test(this.state.annualIncome) )
+      errors.annualIncome = "Annual Income is required";
+
+    // Address Validations
     if (!this.state.patientDoor.trim())
       errors.patientDoor = "Door Number is required.";
     if (!this.state.patientStreet.trim())
@@ -58,6 +82,8 @@ export default class AddPatient extends Component {
       errors.stateID = "State is required.";
     if (!this.state.countryID)
       errors.countryID = "Country is required.";
+
+    //Insurance Validations
     if (!this.state.insuranceID.trim())
       errors.insuranceID = "Insurance ID is required.";
     if (!this.state.insuranceProvider.trim())
@@ -416,9 +442,9 @@ export default class AddPatient extends Component {
               </Form.Group>
             </Col>
           </Row>
-
-          <Button variant="primary" type="submit" className="mt-4">
-            Submit
+          
+          <Button  type="submit" className="button-28 mt-4">
+          Submit
           </Button>
         </Form>
       </Container>

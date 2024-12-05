@@ -35,7 +35,7 @@ class HospitalAdComponent extends Component {
         id: 5,
         title: "Health Checkup Packages",
         description: "Affordable and comprehensive health packages.",
-        image: "/hospital5.jpg", // Example external image
+        image: "/hospital5.png", // Example external image
       },
     ];
   }

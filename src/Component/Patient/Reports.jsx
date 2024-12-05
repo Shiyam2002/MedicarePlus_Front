@@ -183,7 +183,7 @@ export default class Reports extends Component {
           color: "#555",
           textAlign: "center"
         }}>
-          <strong style={{ color: "#007bff" }}>Count:</strong> {count}
+          <strong style={{ color: "#1A1A1A" }}>Count:</strong> {count}
         </p>
       </div>
 
@@ -211,16 +211,13 @@ export default class Reports extends Component {
         <div style={{ marginBottom: "20px" }}>
           {queryList.map((query, index) => (
             <button
+            className="button-26"
               key={index}
               onClick={() => this.fetchQueryResults(query.endpoint, query.name)}
               style={{
                 margin: "5px",
                 padding: "10px 20px",
-                backgroundColor: "#007BFF",
-                color: "#fff",
-                border: "none",
                 borderRadius: "5px",
-                cursor: "pointer",
               }}
             >
               {query.name}

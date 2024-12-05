@@ -106,9 +106,13 @@ export default class LoginPage extends Component {
 
 
           >
-            <img src="rb_739.png" style={{
+            <img src="rb_4685.png" style={{
               width: "800px",
-              height: "500px"
+              height: "400px",
+              marginTop: "20px",
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              paddingTop: "20px"
             }}></img>
 
           </div>
@@ -170,14 +174,16 @@ export default class LoginPage extends Component {
 
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 mb-2"
+                  className=" w-100 mb-2"
                   style={{
-                    backgroundColor: "#007bff",
+                    backgroundColor: "#1A1A1A",
                     borderRadius: "4px",
                     border: "none",
                     fontWeight: "500",
                     fontSize: "0.9rem",
                     padding: "8px 0",
+                    color: "#fff"
+
                   }}
                 >
                   {isSignUp ? "Sign Up" : "Log In"}

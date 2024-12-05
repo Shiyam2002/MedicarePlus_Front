@@ -117,7 +117,7 @@ export default class FetchAllPatients extends Component {
               <div className="card shadow-sm">
                 <div className="card-header">
                   <h5
-                    className="mb-0 text-primary"
+                    className="mb-0 text-dark"
                     data-bs-toggle="collapse"
                     data-bs-target={`#patientDetails${index}`}
                     aria-expanded="false"

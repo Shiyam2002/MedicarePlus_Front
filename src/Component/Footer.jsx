@@ -21,7 +21,7 @@ export default class Footer extends Component {
     const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
     // Show the footer after scrolling 75% of the page
-    if (scrollTop > windowHeight * 0.95) {
+    if (scrollTop > windowHeight * 0.99) {
       this.setState({ isFooterVisible: true });
     } else {
       this.setState({ isFooterVisible: false });

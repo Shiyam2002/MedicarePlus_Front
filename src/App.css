@@ -5,9 +5,7 @@
   flex-direction: column;
 }
 
-body {
-  min-height: 400vh;
-}
+
 
 .App-logo {
   height: 30vmin;
@@ -30,6 +28,11 @@ body {
 .content-wrap {
   flex: 1;
 }
+.content-container {
+  flex-grow: 1;
+  padding-bottom: 140px; /* Ensure space for footer */
+}
+
 
 .App-link {
   color: #61dafb;
@@ -115,3 +118,11 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
+
+.col {
+  flex: 1; /* Let the column grow dynamically */
+  display: flex;
+  flex-direction: column;
+}
+
+

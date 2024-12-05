@@ -6,6 +6,7 @@ import Footer from "./Footer";
 export default class LandingPage extends Component {
   render() {
     return (
+      
       <div style={{ fontFamily: "Poppins, sans-serif" }}>
         {/* Navigation Menu */}
         <header className="d-flex justify-content-between align-items-center p-3 bg-black text-white">
@@ -58,7 +59,7 @@ export default class LandingPage extends Component {
           </p>
           <NavLink className="btn btn-outline-light btn-lg mt-4" to="/login">
             Get Started
-          </NavLink>
+          </NavLink>  
         </section>
 
         {/* Services Section */}
