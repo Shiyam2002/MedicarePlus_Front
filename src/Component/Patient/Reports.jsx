@@ -8,6 +8,34 @@ export default class Reports extends Component {
     loading: false,
   };
 
+  // City, state, and country mappings
+  cityMap = {
+    1: "Salem",
+    2: "Chennai",
+    3: "Bangalore",
+    4: "Mysore",
+    5: "Trivandrum",
+    6: "Kochi",
+    7: "Mumbai",
+    8: "Pune",
+    9: "Ahmedabad",
+    10: "Surat",
+  };
+
+  stateMap = {
+    1: "Tamil Nadu",
+    2: "Karnataka",
+    3: "Kerala",
+    4: "Maharashtra",
+    5: "Gujarat",
+  };
+
+  countryMap = {
+    1: "India",
+    2: "USA",
+    3: "UK",
+  };
+
   fetchQueryResults = async (endpoint, queryName) => {
     this.setState({ loading: true, error: null });
     try {
@@ -27,6 +55,12 @@ export default class Reports extends Component {
   };
 
   renderPatientDetails = (patient) => {
+    // Resolve IDs to names using maps
+    const cityName = this.cityMap[patient.address.cityID] || "Unknown City";
+    const stateName = this.stateMap[patient.address.stateID] || "Unknown State";
+    const countryName =
+      this.countryMap[patient.address.countryID] || "Unknown Country";
+
     return (
       <div key={patient.patientEmail} style={{
         marginBottom: "20px",
@@ -38,8 +72,15 @@ export default class Reports extends Component {
         transition: "transform 0.3s, box-shadow 0.3s",
         cursor: "pointer",
       }}
-        onMouseEnter={(e) => e.target.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.2)"}
-        onMouseLeave={(e) => e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"}
+      onMouseEnter={(e) => {
+        e.target.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.2)";
+        e.target.style.transform = "scale(1.02)";
+    }}
+    onMouseLeave={(e) => {
+        e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+        e.target.style.transform = "scale(1)";
+    }}
+    
       >
         <h3 style={{ color: "#007BFF" }}>{patient.patientName}</h3>
         <p><strong>Email:</strong> {patient.patientEmail}</p>
@@ -52,9 +93,9 @@ export default class Reports extends Component {
           <h4>Address</h4>
           <p><strong>Door:</strong> {patient.address.patientDoor}</p>
           <p><strong>Street:</strong> {patient.address.patientStreet}</p>
-          <p><strong>City ID:</strong> {patient.address.cityID}</p>
-          <p><strong>State ID:</strong> {patient.address.stateID}</p>
-          <p><strong>Country ID:</strong> {patient.address.countryID}</p>
+          <p><strong>City:</strong> {cityName}</p>
+          <p><strong>State:</strong> {stateName}</p>
+          <p><strong>Country:</strong> {countryName}</p>
         </div>
 
         <div style={{ marginTop: "15px" }}>

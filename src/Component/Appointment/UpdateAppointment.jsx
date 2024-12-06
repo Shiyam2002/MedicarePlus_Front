@@ -7,6 +7,7 @@ class UpdateAppointment extends Component {
       appointmentID: "",
       appointmentDetails: null,
       error: null,
+      message: null,
       loading: false,
       updateLoading: false,
     };
@@ -85,7 +86,20 @@ class UpdateAppointment extends Component {
       const data = await response.json();
       console.log("Updated Data:", data);
 
-      alert("Appointment updated successfully!");
+      if (response.ok) {
+        this.setState({
+          message: `Appointment updated successfully.`,
+          error: "",
+        });
+      } else {
+        const errorData = await response.json();
+        this.setState({
+          error: errorData.message || "Failed to update patient.",
+          message: "",
+        });
+      }
+      
+      //alert("Appointment updated successfully!");
       this.setState({ updateLoading: false });
     } catch (error) {
       console.error("Error:", error);
@@ -100,6 +114,7 @@ class UpdateAppointment extends Component {
       error,
       loading,
       updateLoading,
+      message,
     } = this.state;
 
     return (
@@ -213,6 +228,8 @@ class UpdateAppointment extends Component {
             >
               {updateLoading ? "Updating..." : "Update Appointment"}
             </button>
+            {message && <p className="text-success mt-3">{message}</p>}
+        {error && <p className="text-danger mt-3">{error}</p>}
           </form>
         )}
       </div>

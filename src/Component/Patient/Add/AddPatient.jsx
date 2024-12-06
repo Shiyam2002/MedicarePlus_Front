@@ -23,6 +23,7 @@ export default class AddPatient extends Component {
       coverageDetails: "",
       policyNumber: "",
       errors: {},
+      successMessage: "",
     };
   }
 
@@ -169,6 +170,7 @@ export default class AddPatient extends Component {
           coverageDetails: "",
           policyNumber: "",
           errors: {},
+          successMessage: "Patient details saved successfully!", // Set success message
         });
       })
       .catch((error) => {
@@ -178,7 +180,7 @@ export default class AddPatient extends Component {
   };
 
   render() {
-    const { errors } = this.state;
+    const { errors,successMessage } = this.state;
 
     return (
       <Container className="mt-5">
@@ -310,12 +312,13 @@ export default class AddPatient extends Component {
             </Col>
             <Col md={4}>
               <Form.Group controlId="cityID">
-                <Form.Label>City ID</Form.Label>
+                <Form.Label>City </Form.Label>
                 <Form.Control
                   as="select"
                   type="number"
                   name="cityID"
                   placeholder="e.g., 101"
+                  className="p-2"
                   value={this.state.cityID}
                   onChange={this.handleChange}
                   isInvalid={!!errors.cityID}>
@@ -339,12 +342,13 @@ export default class AddPatient extends Component {
           <Row>
             <Col md={6}>
               <Form.Group controlId="stateID">
-                <Form.Label>State ID</Form.Label>
+                <Form.Label>State </Form.Label>
                 <Form.Control
                   as="select"
                   type="number"
                   name="stateID"
                   placeholder="e.g., 201"
+                  className="p-1"
                   value={this.state.stateID}
                   onChange={this.handleChange}
                   isInvalid={!!errors.stateID}>
@@ -360,10 +364,11 @@ export default class AddPatient extends Component {
             </Col>
             <Col md={6}>
               <Form.Group controlId="countryID">
-                <Form.Label>Country ID</Form.Label>
+                <Form.Label>Country </Form.Label>
                 <Form.Control
                   as="select"
                   type="number"
+                  className="p-1"
                   name="countryID"
                   placeholder="e.g., 301"
                   value={this.state.countryID}
@@ -446,6 +451,12 @@ export default class AddPatient extends Component {
           <Button  type="submit" className="button-28 mt-4">
           Submit
           </Button>
+          {/* Display success message */}
+        {successMessage && (
+          <div className="alert alert-success text-center pt-4" role="alert">
+            {successMessage}
+          </div>
+        )}
         </Form>
       </Container>
     );

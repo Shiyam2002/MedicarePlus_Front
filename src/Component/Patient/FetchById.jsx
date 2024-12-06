@@ -16,6 +16,34 @@ export default class FetchPatientByName extends Component {
     };
   }
 
+  // City, state, and country mappings
+  cityMap = {
+    1: "Salem",
+    2: "Chennai",
+    3: "Bangalore",
+    4: "Mysore",
+    5: "Trivandrum",
+    6: "Kochi",
+    7: "Mumbai",
+    8: "Pune",
+    9: "Ahmedabad",
+    10: "Surat",
+  };
+
+  stateMap = {
+    1: "Tamil Nadu",
+    2: "Karnataka",
+    3: "Kerala",
+    4: "Maharashtra",
+    5: "Gujarat",
+  };
+
+  countryMap = {
+    1: "India",
+    2: "USA",
+    3: "UK",
+  };
+
   fetchPatientsByName = (name) => {
     this.setState({
       loading: true,
@@ -83,6 +111,7 @@ export default class FetchPatientByName extends Component {
       responseMessage,
       validationError,
     } = this.state;
+    
 
     return (
       <div className="container mt-5">
@@ -164,9 +193,9 @@ export default class FetchPatientByName extends Component {
                 <br />
                 <strong>Street:</strong> {selectedPatient.address.patientStreet}{" "}
                 <br />
-                <strong>City:</strong> {selectedPatient.address.cityID} <br />
-                <strong>State:</strong> {selectedPatient.address.stateID} <br />
-                <strong>Country:</strong> {selectedPatient.address.countryID}{" "}
+                <strong>City:</strong> {this.cityMap[selectedPatient.address.cityID]} <br />
+                <strong>State:</strong> {this.stateMap[selectedPatient.address.stateID]} <br />
+                <strong>Country:</strong> {this.countryMap[selectedPatient.address.countryID]}{" "}
                 <br />
               </p>
               <h4>Insurance</h4>
