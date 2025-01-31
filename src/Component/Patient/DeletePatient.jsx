@@ -1,12 +1,22 @@
 import React, { Component } from "react";
 
 class DeletePatientByName extends Component {
+  constructor(props) {
+    super(props);
+    this.updateFormRef = React.createRef(); // Ref for the update form
+  }
   state = {
     name: "",
     patients: [],
     selectedPatient: null,
     message: "",
     error: "",
+  };
+
+  scrollToUpdateForm = () => {
+    if (this.updateFormRef.current) {
+      this.updateFormRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   // Handle input changes
@@ -32,13 +42,13 @@ class DeletePatientByName extends Component {
       if (response.ok) {
         const responseData = await response.json();
 
-        if (responseData.Data && Array.isArray(responseData.Data)) {
+        if (responseData.Data && Array.isArray(responseData.Data) && responseData.Data.length > 0) {
           this.setState({ patients: responseData.Data, error: "", message: "" });
         } else {
           this.setState({
-            error: "No patients found with the given name.",
-            patients: [],
-            message: "",
+            patients: [], // Clear patient list
+            message: "No data found.", // Show no data message
+            error: "", // Clear any previous error
           });
         }
       } else {
@@ -62,6 +72,7 @@ class DeletePatientByName extends Component {
   selectPatient = (patient) => {
     console.log("Selected Patient ID:", patient.patientID); // Log the ID
     this.setState({ selectedPatient: patient, error: "", message: "" });
+    this.scrollToUpdateForm();
   };
 
   // Handle delete request
@@ -90,7 +101,7 @@ class DeletePatientByName extends Component {
 
       if (response.ok) {
         this.setState({
-          message: `Patient with ID ${selectedPatient.patientID} deleted successfully.`,
+          message: `Patient ${selectedPatient.patientName} deleted successfully.`,
           error: "",
           patients: [],
           selectedPatient: null,
@@ -132,6 +143,8 @@ class DeletePatientByName extends Component {
         >
           Fetch Patients
         </button>
+        
+        
 
         {patients.length > 0 && (
           <div className="mt-4">
@@ -140,16 +153,15 @@ class DeletePatientByName extends Component {
               {patients.map((patient) => (
                 <div className="col-md-4" key={patient.patientID}>
                   <div
-                    className={`card ${
-                      selectedPatient &&
+                    className={`card ${selectedPatient &&
                       selectedPatient.patientID === patient.patientID
-                        ? "border-dark"
-                        : ""
-                    }`}
+                      ? "border-dark"
+                      : ""
+                      }`}
                     onClick={() => this.selectPatient(patient)}
                     style={{ cursor: "pointer" }}
                   >
-                    <div className="card-body">
+                    <div className="card-body" ref={this.updateFormRef}>
                       <h5 className="card-title">{patient.patientName}</h5>
                       <p className="card-text">Email: {patient.patientEmail}</p>
                       <p className="card-text">Phone: {patient.patientPhone}</p>

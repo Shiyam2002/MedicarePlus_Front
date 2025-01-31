@@ -6,11 +6,13 @@ export default class HomePage extends Component {
   render() {
     return (
       <div
-        className="container-fluid d-flex flex-column align-items-center justify-content-center"
+        className="container-fluid d-flex flex-column align-items-center justify-content-center mt-3"
         style={{
           minHeight: "100vh",
           backgroundImage: "linear-gradient(to bottom right, #eef2f3, #8e9eab)",
           textAlign: "center",
+          borderRadius: "15px",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.15)",
         }}
       >
         <h1

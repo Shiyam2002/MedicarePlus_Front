@@ -15,11 +15,11 @@ class ScheduleAppointment extends Component {
       statusOptions: ['Scheduled', 'Cancelled', 'Completed'],
       patientNames: [],
       patientDetails: {},
-      message: ''
+      message: '',
+      errors: {} // Added to track validation errors
     };
   }
 
-  // Fetch all patient names when the component mounts
   componentDidMount() {
     this.fetchPatientNames();
   }
@@ -36,7 +36,6 @@ class ScheduleAppointment extends Component {
     }
   };
 
-  // Fetch patient details by name when a name is selected
   fetchPatientDetails = async (name) => {
     try {
       const response = await fetch(`http://localhost:8080/api/patient/fetchByName/${name}`);
@@ -58,9 +57,38 @@ class ScheduleAppointment extends Component {
     });
   };
 
+  validateFields = () => {
+    const { dateOfAppointment, doctor, timeOfAppointment, status } = this.state;
+    const errors = {};
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+    if (!doctor.trim()) {
+      errors.doctor = 'Please select a doctor.';
+    }
+
+    if (!dateOfAppointment || dateOfAppointment <= today) {
+      errors.dateOfAppointment = 'Date of appointment must be a future date.';
+    }
+
+    if (!timeOfAppointment) {
+      errors.timeOfAppointment = 'Please select a valid time.';
+    }
+
+    if (!status) {
+      errors.status = 'Please select a valid status.';
+    }
+
+    this.setState({ errors });
+    return Object.keys(errors).length === 0; // Return true if no errors
+  };
+
   handleSubmit = async (event) => {
     event.preventDefault();
-    const { appointmentID, patientName, doctor, dateOfAppointment, timeOfAppointment, status, patientDetails } = this.state;
+    if (!this.validateFields()) {
+      return; // If validation fails, stop form submission
+    }
+
+    const { appointmentID, doctor, dateOfAppointment, timeOfAppointment, status, patientDetails } = this.state;
 
     const appointmentData = {
       appointmentID: parseInt(appointmentID),
@@ -75,7 +103,7 @@ class ScheduleAppointment extends Component {
         address: patientDetails.address,
         insurance: patientDetails.insurance
       },
-      doctor: parseInt(doctor),
+      doctor: doctor,
       dateOfAppointment,
       timeOfAppointment,
       status
@@ -103,23 +131,12 @@ class ScheduleAppointment extends Component {
   };
 
   render() {
-    const { appointmentID, patientName, doctor, dateOfAppointment, timeOfAppointment, status, doctorOptions, statusOptions, patientNames, message } = this.state;
+    const { patientName, doctor, dateOfAppointment, timeOfAppointment, status, doctorOptions, statusOptions, patientNames, message, errors } = this.state;
 
     return (
       <div className="container mt-5">
         <h3 className="text-center mb-4">Schedule Appointment</h3>
         <form onSubmit={this.handleSubmit} className="card p-4 shadow">
-          {/* <div className="mb-3">
-            <label className="form-label">Appointment ID</label>
-            <input
-              type="number"
-              className="form-control"
-              name="appointmentID"
-              value={appointmentID}
-              onChange={this.handleChange}
-              required
-            />
-          </div> */}
           <div className="mb-3">
             <label className="form-label">Patient Name</label>
             <select
@@ -138,7 +155,7 @@ class ScheduleAppointment extends Component {
             </select>
           </div>
           <div className="mb-3">
-            <label className="form-label">Doctor </label>
+            <label className="form-label">Doctor</label>
             <select
               className="form-select"
               name="doctor"
@@ -153,6 +170,7 @@ class ScheduleAppointment extends Component {
                 </option>
               ))}
             </select>
+            {errors.doctor && <span className="text-danger">{errors.doctor}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Date of Appointment</label>
@@ -164,6 +182,7 @@ class ScheduleAppointment extends Component {
               onChange={this.handleChange}
               required
             />
+            {errors.dateOfAppointment && <small className="text-danger">{errors.dateOfAppointment}</small>}
           </div>
           <div className="mb-3">
             <label className="form-label">Time of Appointment</label>
@@ -173,8 +192,10 @@ class ScheduleAppointment extends Component {
               name="timeOfAppointment"
               value={timeOfAppointment}
               onChange={this.handleChange}
+              isValid ={!!errors.timeOfAppointment}
               required
             />
+            {errors.timeOfAppointment && <small className="text-danger">{errors.timeOfAppointment}</small>}
           </div>
           <div className="mb-3">
             <label className="form-label">Status</label>
@@ -191,8 +212,9 @@ class ScheduleAppointment extends Component {
                 </option>
               ))}
             </select>
+            {errors.status && <small className="text-danger">{errors.status}</small>}
           </div>
-          <button type="submit" className="button-28">
+          <button type="submit" className="btn btn-primary">
             Schedule Appointment
           </button>
         </form>

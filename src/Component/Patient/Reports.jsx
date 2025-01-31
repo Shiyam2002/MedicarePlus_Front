@@ -6,6 +6,7 @@ export default class Reports extends Component {
     currentQuery: "",
     error: null,
     loading: false,
+    isContentVisible: false,
   };
 
   // City, state, and country mappings
@@ -34,6 +35,12 @@ export default class Reports extends Component {
     1: "India",
     2: "USA",
     3: "UK",
+  };
+
+  toggleContent = () => {
+    this.setState((prevState) => ({
+      isContentVisible: !prevState.isContentVisible, // Toggle the visibility
+    }));
   };
 
   fetchQueryResults = async (endpoint, queryName) => {
@@ -232,13 +239,13 @@ export default class Reports extends Component {
   };
 
   render() {
-    const { queryResults, currentQuery, error, loading } = this.state;
+    const { queryResults, currentQuery, error, loading, isContentVisible } = this.state;
 
     const queryList = [
-      { name: "Left Join Providers", endpoint: "LeftJoin" },
-      { name: "Right Join Providers", endpoint: "RightJoin" },
-      { name: "Inner Join Providers", endpoint: "InnerJoin" },
-      { name: "Join Providers", endpoint: "Join" },
+      { name: "Left Join Patients", endpoint: "LeftJoin" },
+      { name: "Right Join Patients", endpoint: "RightJoin" },
+      { name: "Inner Join Patients", endpoint: "InnerJoin" },
+      { name: "Join Patients", endpoint: "Join" },
       { name: "Named Query 1", endpoint: "NameQuery01" },
       { name: "Named Query 2", endpoint: "NameQuery02" },
       { name: "Ordered Patients", endpoint: "PatientOrderBy" },
@@ -254,7 +261,9 @@ export default class Reports extends Component {
             <button
             className="button-26"
               key={index}
-              onClick={() => this.fetchQueryResults(query.endpoint, query.name)}
+              onClick={() =>{
+                this.toggleContent(); 
+                this.fetchQueryResults(query.endpoint, query.name)}}
               style={{
                 margin: "5px",
                 padding: "10px 20px",
@@ -265,15 +274,36 @@ export default class Reports extends Component {
             </button>
           ))}
         </div>
+        
         <div>
           {loading && <p>Loading...</p>}
           {error && <p style={{ color: "red" }}>Error: {error}</p>}
-          {queryResults && currentQuery === "Left Join Providers" && (
+          {queryResults && currentQuery === "Left Join Patients" && (
             <div>
               <h2>Results for: {currentQuery}</h2>
               <p style={{ fontStyle: "italic", color: "#555" }}>
-                The "Left Join Providers" query retrieves all patients and their associated providers,
-                ensuring that even patients without an assigned provider are included in the results.
+                The "Left Join Patient" query retrieves all patients and their associated Patient,
+                ensuring that even patients without an assigned Patient are included in the results.
+              </p>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+                gap: "20px",
+                marginTop: "20px",
+              }}>
+                {queryResults.Data && Array.isArray(queryResults.Data) &&
+                  queryResults.Data.map(this.renderPatientDetails)}
+              </div>
+            </div>
+          
+          )}
+
+          {queryResults && currentQuery === "Right Join Patients" && (
+            <div>
+              <h2>Results for: {currentQuery}</h2>
+              <p style={{ fontStyle: "italic", color: "#555" }}>
+                The "Right Join Patient" query retrieves all Patient, including those without an associated patient.
+                This ensures that you see every Patient's details, whether or not they are linked to a patient.
               </p>
               <div style={{
                 display: "grid",
@@ -287,12 +317,11 @@ export default class Reports extends Component {
             </div>
           )}
 
-          {queryResults && currentQuery === "Right Join Providers" && (
+          {queryResults && currentQuery === "Inner Join Patients" && (
             <div>
               <h2>Results for: {currentQuery}</h2>
               <p style={{ fontStyle: "italic", color: "#555" }}>
-                The "Right Join Providers" query retrieves all providers, including those without an associated patient.
-                This ensures that you see every provider's details, whether or not they are linked to a patient.
+                The "Inner Join Patient" query retrieves patients who have an associated Patient. This query joins the patient and Patient data to ensure only patients with matching Patient information are shown.
               </p>
               <div style={{
                 display: "grid",
@@ -306,29 +335,11 @@ export default class Reports extends Component {
             </div>
           )}
 
-          {queryResults && currentQuery === "Inner Join Providers" && (
+          {queryResults && currentQuery === "Join Patients" && (
             <div>
               <h2>Results for: {currentQuery}</h2>
               <p style={{ fontStyle: "italic", color: "#555" }}>
-                The "Inner Join Providers" query retrieves patients who have an associated provider. This query joins the patient and provider data to ensure only patients with matching provider information are shown.
-              </p>
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-                gap: "20px",
-                marginTop: "20px",
-              }}>
-                {queryResults.Data && Array.isArray(queryResults.Data) &&
-                  queryResults.Data.map(this.renderPatientDetails)}
-              </div>
-            </div>
-          )}
-
-          {queryResults && currentQuery === "Join Providers" && (
-            <div>
-              <h2>Results for: {currentQuery}</h2>
-              <p style={{ fontStyle: "italic", color: "#555" }}>
-                The "Join Providers" query retrieves patient data joined with provider information. This query helps to combine and display the relevant patient and provider details, giving a comprehensive view of the patient-provider relationships.
+                The "Join Patient" query retrieves patient data joined with Patient information. This query helps to combine and display the relevant patient and Patient details, giving a comprehensive view of the patient-Patient relationships.
               </p>
               <div style={{
                 display: "grid",

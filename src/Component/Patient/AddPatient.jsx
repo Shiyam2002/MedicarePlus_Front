@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Col, Row, Form, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../CSS/AddPatient.css";
+import "./AddPatient.css";
 
 export default class AddPatient extends Component {
   constructor(props) {
@@ -24,8 +24,52 @@ export default class AddPatient extends Component {
       policyNumber: "",
       errors: {},
       successMessage: "",
+      // City, state, and country mappings
+      cityMap: {
+        1: "Salem",
+        2: "Chennai",
+        3: "Bangalore",
+        4: "Mysore",
+        5: "Trivandrum",
+        6: "Kochi",
+        7: "Mumbai",
+        8: "Pune",
+        9: "Ahmedabad",
+        10: "Surat",
+      },
+
+      stateMap: {
+        1: "Tamil Nadu",
+        2: "Karnataka",
+        3: "Kerala",
+        4: "Maharashtra",
+        5: "Gujarat",
+      },
+
+      countryMap: {
+        1: "India",
+        2: "USA",
+        3: "UK",
+      },
+
+      // City-to-state and state-to-country mappings
+      cityStateCountryMap: {
+        1: { stateID: 1, countryID: 1 },
+        2: { stateID: 1, countryID: 1 },
+        3: { stateID: 2, countryID: 1 },
+        4: { stateID: 2, countryID: 1 },
+        5: { stateID: 3, countryID: 1 },
+        6: { stateID: 3, countryID: 1 },
+        7: { stateID: 4, countryID: 1 },
+        8: { stateID: 4, countryID: 1 },
+        9: { stateID: 5, countryID: 1 },
+        10: { stateID: 5, countryID: 1 },
+      },
+
     };
   }
+
+
 
   // Validation Methods
   validateFields = () => {
@@ -33,44 +77,70 @@ export default class AddPatient extends Component {
 
     //regex
     const nameRegex = /^[a-zA-Z\s]+$/;
-    const phoneRegex = /^\d{10}$/;
+    const phoneRegex01 = /^\d{10}$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const numberRegex = /^[0-9]+$/;
 
     //Patient name validations
     if (!this.state.patientName.trim())
       errors.patientName = "Patient Name is Required";
-    if(!nameRegex.test(this.state.patientName))
+    else if (!nameRegex.test(this.state.patientName))
       errors.patientName = "Patient Name must contain only letters.";
 
     //Patient Phone Number Validations
-    if(!this.state.patientPhone.trim())
+    if (!this.state.patientPhone.trim())
       errors.patientPhone = "Phone Number is Required";
-    if (!phoneRegex.test(this.state.patientPhone))
-      errors.patientPhone = "Enter a valid 10-digit phone number";
+    else if (!phoneRegex01.test(this.state.patientPhone))
+      errors.patientPhone = `Enter a valid 10-digit phone number. total number(s) ${this.state.patientPhone.length}`;
+    else if (!['6', '7', '8', '9'].includes(this.state.patientPhone.charAt(0))) {
+      errors.patientPhone = `Phone number doesn't start with  ${this.state.patientPhone.charAt(0)}.`;
+    }
 
     //Patient Email Validations
-    if(!emailRegex.test(this.state.patientEmail))
+    if (!emailRegex.test(this.state.patientEmail))
       errors.patientEmail = "Enter a valid email address";
     if (!this.state.patientEmail.trim()) {
       errors.patientEmail = "Email is Required";
     }
 
     //DoB Validations
-    if(new Date(this.state.patientDob) >= new Date())
-      errors.patientDob = "DoB can't be in Future Dates"
-    if (!this.state.patientDob)
+    if (!this.state.patientDob) {
       errors.patientDob = "Date of Birth is required.";
+    } else {
+      // Check if Date of Birth is in the future
+      const dobDate = new Date(this.state.patientDob);
+      const today = new Date();
+      if (dobDate > today) {
+        errors.patientDob = "Date of Birth can't be in the future.";
+      }
+
+      // Check if the person is at least 18 years old
+      //   const age = today.getFullYear() - dobDate.getFullYear();
+      //   const isBeforeBirthdayThisYear = today.getMonth() < dobDate.getMonth() ||
+      //     (today.getMonth() === dobDate.getMonth() && today.getDate() < dobDate.getDate());
+      //   if (age < 18 || (age === 18 && isBeforeBirthdayThisYear)) {
+      //     errors.patientDob = "You must be at least 18 years old.";
+      //   }
+    }
 
     //Employment Status Validation
     if (!this.state.employmentStatus.trim())
       errors.employmentStatus = "Employment Status is required.";
+    else if (!nameRegex.test(this.state.employmentStatus))
+      errors.employmentStatus = "Enter only letters"
 
     //Annual Income Validations
-    if(parseFloat(this.state.annualIncome) <= 0)
-      errors.annualIncome = "Annual Income must be a valid number greater than 0";
-    if (!numberRegex.test(this.state.annualIncome) )
+    const annualIncome = parseInt(this.state.annualIncome, 10);
+
+    if (!this.state.annualIncome.trim())
       errors.annualIncome = "Annual Income is required";
+    // Validate if it's a number and greater than 0
+    else if (isNaN(annualIncome) || annualIncome <= 0) {
+      errors.annualIncome = "Annual Income must be a valid number greater than 0";
+    }
+    else if (!(this.state.annualIncome > 9999)) {
+      errors.annualIncome = "Annual Income must be have more 9999";
+    }
+
 
     // Address Validations
     if (!this.state.patientDoor.trim())
@@ -100,11 +170,22 @@ export default class AddPatient extends Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
-
     this.setState({
       [name]: value,
       errors: { ...this.state.errors, [name]: "" },
     });
+
+    if (name === "cityID") {
+      const selectedMapping = this.state.cityStateCountryMap[value];
+      if (selectedMapping) {
+        this.setState({
+          stateID: selectedMapping.stateID,
+          countryID: selectedMapping.countryID,
+        });
+      } else {
+        this.setState({ stateID: "", countryID: "" });
+      }
+    }
   };
 
   handleSubmit = (event) => {
@@ -151,7 +232,7 @@ export default class AddPatient extends Component {
         return response.json();
       })
       .then((result) => {
-       // alert("Patient details saved successfully!");
+        // alert("Patient details saved successfully!");
         console.log(result);
         this.setState({
           patientName: "",
@@ -180,7 +261,7 @@ export default class AddPatient extends Component {
   };
 
   render() {
-    const { errors,successMessage } = this.state;
+    const { errors, successMessage } = this.state;
 
     return (
       <Container className="mt-5">
@@ -205,7 +286,7 @@ export default class AddPatient extends Component {
               <Form.Group controlId="patientPhone">
                 <Form.Label>Phone Number</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   name="patientPhone"
                   placeholder="e.g., 9876543210"
                   value={this.state.patientPhone}
@@ -253,13 +334,20 @@ export default class AddPatient extends Component {
               <Form.Group controlId="employmentStatus">
                 <Form.Label>Employment Status</Form.Label>
                 <Form.Control
-                  type="text"
+                  as="select"
                   name="employmentStatus"
-                  placeholder="e.g., Employed, Unemployed"
                   value={this.state.employmentStatus}
                   onChange={this.handleChange}
                   isInvalid={!!errors.employmentStatus}
-                />
+                  className="p-1"
+                  placeholder="Employment Status"
+                  style={{color: "#aaa"}}
+                >
+                  <option value="" style={{color: "#000"}}>Employment Status</option>
+                  <option value="Employed" style={{color: "#000"}}>Employed</option>
+                  <option value="Unemployed" style={{color: "#000"}}>Unemployed</option>
+                  <option value="Self-Employed" style={{color: "#000"}}>Self-Employed</option>
+                </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.employmentStatus}</Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -312,72 +400,55 @@ export default class AddPatient extends Component {
             </Col>
             <Col md={4}>
               <Form.Group controlId="cityID">
-                <Form.Label>City </Form.Label>
+                <Form.Label>City</Form.Label>
                 <Form.Control
                   as="select"
-                  type="number"
                   name="cityID"
-                  placeholder="e.g., 101"
-                  className="p-2"
                   value={this.state.cityID}
                   onChange={this.handleChange}
-                  isInvalid={!!errors.cityID}>
+                  isInvalid={!!errors.cityID}
+                  className="p-1"
+                  style={{color: "#aaa"}}
+                >
                   <option value="">Select City</option>
-                  <option value="1">Salem</option>
-                  <option value="2">Chennai</option>
-                  <option value="3">Bangalore</option>
-                  <option value="4">Mysore</option>
-                  <option value="5">Trivandrum</option>
-                  <option value="6">Kochi</option>
-                  <option value="7">Mumbai</option>
-                  <option value="8">Pune</option>
-                  <option value="9">Ahmedabad</option>
-                  <option value="10">Surat</option>
+                  {Object.entries(this.state.cityMap).map(([id, name]) => (
+                    <option key={id} value={id} style={{color: "#000"}}>
+                      {name}
+                    </option>
+                  ))}
                 </Form.Control>
-                <Form.Control.Feedback type="invalid">{errors.cityID}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  {errors.cityID}
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
 
           <Row>
-            <Col md={6}>
+            <Col md={4}>
               <Form.Group controlId="stateID">
-                <Form.Label>State </Form.Label>
-                <Form.Control
-                  as="select"
-                  type="number"
-                  name="stateID"
-                  placeholder="e.g., 201"
-                  className="p-1"
-                  value={this.state.stateID}
-                  onChange={this.handleChange}
-                  isInvalid={!!errors.stateID}>
+                <Form.Label>State</Form.Label>
+                <Form.Control as="select" name="stateID" className="p-2" value={this.state.stateID} style={{color: "#aaa"}} isInvalid={!!errors.stateID} >
                   <option value="">Select State</option>
-                  <option value="1">Tamil Nadu</option>
-                  <option value="2">Karnataka</option>
-                  <option value="3">Kerala</option>
-                  <option value="4">Maharashtra</option>
-                  <option value="5">Gujarat</option>
+                  {Object.entries(this.state.stateMap).map(([id, name]) => (
+                    <option key={id} value={id} style={{color: "#000"}}>
+                      {name}
+                    </option>
+                  ))}
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.stateID}</Form.Control.Feedback>
               </Form.Group>
             </Col>
-            <Col md={6}>
+            <Col md={4}>
               <Form.Group controlId="countryID">
-                <Form.Label>Country </Form.Label>
-                <Form.Control
-                  as="select"
-                  type="number"
-                  className="p-1"
-                  name="countryID"
-                  placeholder="e.g., 301"
-                  value={this.state.countryID}
-                  onChange={this.handleChange}
-                  isInvalid={!!errors.countryID}>
+                <Form.Label>Country</Form.Label>
+                <Form.Control as="select" name="countryID" className="p-2" style={{color: "#aaa"}} value={this.state.countryID} isInvalid={!!errors.countryID} >
                   <option value="">Select Country</option>
-                  <option value="1">India</option>
-                  <option value="2">USA</option>
-                  <option value="3">UK</option>
+                  {Object.entries(this.state.countryMap).map(([id, name]) => (
+                    <option key={id} value={id} style={{color: "#000"}}>
+                      {name}
+                    </option>
+                  ))}
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.countryID}</Form.Control.Feedback>
               </Form.Group>
@@ -405,13 +476,20 @@ export default class AddPatient extends Component {
               <Form.Group controlId="insuranceProvider">
                 <Form.Label>Insurance Provider</Form.Label>
                 <Form.Control
-                  type="text"
+                  as="select"
                   name="insuranceProvider"
-                  placeholder="e.g., Star Health"
                   value={this.state.insuranceProvider}
                   onChange={this.handleChange}
                   isInvalid={!!errors.insuranceProvider}
-                />
+                  className="p-1"
+                  style={{color: "#aaa"}}
+                >
+                  <option value="" style={{color: "#000"}}>Insurance Provider</option>
+                  <option value="LIC" style={{color: "#000"}}>LIC</option>
+                  <option value="Star Health" style={{color: "#000"}}>Star Health</option>
+                  <option value="HDFC Ergo" style={{color: "#000"}}>HDFC Ergo</option>
+                  <option value="ICICI Lombard" style={{color: "#000"}}>ICICI Lombard</option>
+                </Form.Control>
                 <Form.Control.Feedback type="invalid">{errors.insuranceProvider}</Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -447,16 +525,16 @@ export default class AddPatient extends Component {
               </Form.Group>
             </Col>
           </Row>
-          
-          <Button  type="submit" className="button-28 mt-4">
-          Submit
+
+          <Button variant="primary" type="submit" className="button-28 mt-4">
+            Submit
           </Button>
           {/* Display success message */}
-        {successMessage && (
-          <div className="alert alert-success text-center pt-4" role="alert">
-            {successMessage}
-          </div>
-        )}
+          {successMessage && (
+            <div className="alert alert-success text-center pt-4" role="alert">
+              {successMessage}
+            </div>
+          )}
         </Form>
       </Container>
     );

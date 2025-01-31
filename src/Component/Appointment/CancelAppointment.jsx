@@ -6,11 +6,15 @@ class CancelAppointment extends Component {
     appointmentID: "",
     message: "",
     error: "",
+    noDataFound: false, // New state to track if no data is found
   };
 
   // Handle input changes
   handleChange = (event) => {
-    this.setState({ appointmentID: event.target.value });
+    this.setState({
+      appointmentID: event.target.value,
+      noDataFound: false, // Reset no data state on input change
+    });
   };
 
   // Handle cancel request
@@ -19,7 +23,7 @@ class CancelAppointment extends Component {
 
     // Validation: Check if ID is not empty
     if (!appointmentID.trim()) {
-      this.setState({ error: "Appointment ID is required.", message: "" });
+      this.setState({ error: "Appointment ID is required.", message: "", noDataFound: false });
       return;
     }
 
@@ -35,24 +39,34 @@ class CancelAppointment extends Component {
         this.setState({
           message: `Appointment with ID ${appointmentID} was canceled successfully.`,
           error: "",
+          noDataFound: false,
+        });
+      } else if (response.status === 400) {
+        // Handle no appointment found
+        this.setState({
+          error: "",
+          message: "",
+          noDataFound: true,
         });
       } else {
         const errorData = await response.json();
         this.setState({
           error: errorData.message || "Failed to cancel the appointment.",
           message: "",
+          noDataFound: false,
         });
       }
     } catch (error) {
       this.setState({
         error: "An error occurred while canceling the appointment.",
         message: "",
+        noDataFound: false,
       });
     }
   };
 
   render() {
-    const { appointmentID, message, error } = this.state;
+    const { appointmentID, message, error, noDataFound } = this.state;
 
     return (
       <div className="container mt-5">
@@ -73,6 +87,9 @@ class CancelAppointment extends Component {
                 className="form-control"
                 placeholder="Enter Appointment ID"
               />
+              {noDataFound && (
+                <div className="text-danger mt-2">No data found for the given Appointment ID.</div>
+              )}
             </div>
             <div className="d-grid">
               <button

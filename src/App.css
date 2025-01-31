@@ -28,9 +28,11 @@
 .content-wrap {
   flex: 1;
 }
+
 .content-container {
   flex-grow: 1;
-  padding-bottom: 140px; /* Ensure space for footer */
+  padding-bottom: 140px;
+  /* Ensure space for footer */
 }
 
 
@@ -120,9 +122,8 @@
 }
 
 .col {
-  flex: 1; /* Let the column grow dynamically */
+  flex: 1;
+  /* Let the column grow dynamically */
   display: flex;
   flex-direction: column;
 }
-
-

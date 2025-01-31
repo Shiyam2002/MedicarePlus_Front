@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "animate.css"; // Import Animate.css
 import { NavLink } from "react-router-dom";
 import Footer from "./Footer";
 
 export default class LandingPage extends Component {
   render() {
     return (
-      
       <div style={{ fontFamily: "Poppins, sans-serif" }}>
         {/* Navigation Menu */}
         <header className="d-flex justify-content-between align-items-center p-3 bg-black text-white">
@@ -17,27 +17,30 @@ export default class LandingPage extends Component {
           </div>
           <nav>
             <NavLink
-              className="text-white me-3"
+              className="text-white me-3 animate__animated animate__fadeIn"
               to="/"
               style={{ textDecoration: "none" }}
             >
               Home
             </NavLink>
             <NavLink
-              className="text-white me-3"
+              className="text-white me-3 animate__animated animate__fadeIn animate__delay-1s"
               to="/about"
               style={{ textDecoration: "none" }}
             >
               About Us
             </NavLink>
             <NavLink
-              className="text-white me-3"
+              className="text-white me-3 animate__animated animate__fadeIn animate__delay-2s"
               to="/contact"
               style={{ textDecoration: "none" }}
             >
               Contact Us
             </NavLink>
-            <NavLink className="btn btn-outline-light" to="/login">
+            <NavLink
+              className="btn btn-outline-light animate__animated animate__bounceIn"
+              to="/login"
+            >
               Login
             </NavLink>
           </nav>
@@ -45,7 +48,7 @@ export default class LandingPage extends Component {
 
         {/* Hero Section */}
         <section
-          className="text-center py-5 text-white"
+          className="text-center py-5 text-white animate__animated animate__zoomIn"
           style={{
             backgroundColor: "#000",
             backgroundImage: `url("https://source.unsplash.com/1920x1080/?hospital,monochrome")`,
@@ -57,18 +60,20 @@ export default class LandingPage extends Component {
           <p className="fs-5 mt-3">
             Manage appointments with ease, anytime, anywhere.
           </p>
-          <NavLink className="btn btn-outline-light btn-lg mt-4" to="/login">
+          <NavLink className="btn btn-outline-light btn-lg mt-4 animate__animated animate__pulse animate__infinite" to="/login">
             Get Started
-          </NavLink>  
+          </NavLink>
         </section>
 
         {/* Services Section */}
         <section className="py-5 bg-black text-black">
           <div className="container">
-            <h3 className="text-center mb-4">Our Core Services</h3>
+            <h3 className="text-center mb-4 animate__animated animate__fadeInUp">
+              Our Core Services
+            </h3>
             <div className="row">
               <div className="col-md-4 text-center mb-4">
-                <div className="p-4 border rounded border-light shadow-sm">
+                <div className="p-4 border rounded border-light shadow-sm animate__animated animate__fadeInLeft">
                   <h5>Doctor Consultation</h5>
                   <p>
                     Book consultations with our certified specialists for your
@@ -77,7 +82,7 @@ export default class LandingPage extends Component {
                 </div>
               </div>
               <div className="col-md-4 text-center mb-4">
-                <div className="p-4 border rounded border-light shadow-sm">
+                <div className="p-4 border rounded border-light shadow-sm animate__animated animate__fadeInUp">
                   <h5>Follow-up Reminders</h5>
                   <p>
                     Never miss an appointment with automated follow-up
@@ -86,7 +91,7 @@ export default class LandingPage extends Component {
                 </div>
               </div>
               <div className="col-md-4 text-center mb-4">
-                <div className="p-4 border rounded border-light shadow-sm">
+                <div className="p-4 border rounded border-light shadow-sm animate__animated animate__fadeInRight">
                   <h5>Patient Dashboard</h5>
                   <p>
                     Track your medical history and upcoming appointments in one
@@ -101,16 +106,18 @@ export default class LandingPage extends Component {
         {/* How It Works Section */}
         <section className="py-5 bg-light text-black">
           <div className="container">
-            <h3 className="text-center mb-4">How It Works</h3>
+            <h3 className="text-center mb-4 animate__animated animate__fadeInUp">
+              How It Works
+            </h3>
             <div className="row">
               <div className="col-md-4 text-center mb-4">
-                <div className="p-4 border rounded shadow-sm">
+                <div className="p-4 border rounded shadow-sm animate__animated animate__fadeInLeft">
                   <h5>Step 1</h5>
                   <p>Register on our platform with easy process.</p>
                 </div>
               </div>
               <div className="col-md-4 text-center mb-4">
-                <div className="p-4 border rounded shadow-sm">
+                <div className="p-4 border rounded shadow-sm animate__animated animate__fadeInUp">
                   <h5>Step 2</h5>
                   <p>
                     Choose your preferred doctor and schedule your appointment.
@@ -118,9 +125,11 @@ export default class LandingPage extends Component {
                 </div>
               </div>
               <div className="col-md-4 text-center mb-4">
-                <div className="p-4 border rounded shadow-sm">
+                <div className="p-4 border rounded shadow-sm animate__animated animate__fadeInRight">
                   <h5>Step 3</h5>
-                  <p>Receive reminders and attend your appointment hassle-free.</p>
+                  <p>
+                    Receive reminders and attend your appointment hassle-free.
+                  </p>
                 </div>
               </div>
             </div>
@@ -130,17 +139,21 @@ export default class LandingPage extends Component {
         {/* Testimonials Section */}
         <section className="py-5 bg-black text-black">
           <div className="container">
-            <h3 className="text-center mb-4">What Our Patients Say</h3>
+            <h3 className="text-center mb-4 animate__animated animate__fadeInUp">
+              What Our Patients Say
+            </h3>
             <div className="row">
-              <div className="col-md-4 text-center mb-4">
+              <div className="col-md-4 text-center mb-4 animate__animated animate__fadeInLeft">
                 <blockquote className="blockquote text-black">
-                  <p>"An incredibly intuitive system for booking appointments."</p>
+                  <p>
+                    "An incredibly intuitive system for booking appointments."
+                  </p>
                   <footer className="blockquote-footer text-black">
                     Emily Carter, <cite>Patient</cite>
                   </footer>
                 </blockquote>
               </div>
-              <div className="col-md-4 text-center mb-4">
+              <div className="col-md-4 text-center mb-4 animate__animated animate__fadeInUp">
                 <blockquote className="blockquote text-black">
                   <p>
                     "Perfectly designed to meet modern hospital requirements."
@@ -150,9 +163,11 @@ export default class LandingPage extends Component {
                   </footer>
                 </blockquote>
               </div>
-              <div className="col-md-4 text-center mb-4">
+              <div className="col-md-4 text-center mb-4 animate__animated animate__fadeInRight">
                 <blockquote className="blockquote text-black">
-                  <p>"A complete game-changer for managing our appointments."</p>
+                  <p>
+                    "A complete game-changer for managing our appointments."
+                  </p>
                   <footer className="blockquote-footer text-black">
                     Sarah Johnson, <cite>Admin</cite>
                   </footer>
@@ -165,16 +180,18 @@ export default class LandingPage extends Component {
         {/* Contact Section */}
         <section className="py-5 bg-light text-black">
           <div className="container">
-            <h3 className="text-center mb-4">Get In Touch</h3>
+            <h3 className="text-center mb-4 animate__animated animate__fadeInUp">
+              Get In Touch
+            </h3>
             <div className="row">
-              <div className="col-md-6 text-center mb-4">
+              <div className="col-md-6 text-center mb-4 animate__animated animate__fadeInLeft">
                 <h5>Email</h5>
                 <p>
                   Reach us at:{" "}
                   <a href="mailto:support@medicare.com">support@medicare.com</a>
                 </p>
               </div>
-              <div className="col-md-6 text-center mb-4">
+              <div className="col-md-6 text-center mb-4 animate__animated animate__fadeInRight">
                 <h5>Phone</h5>
                 <p>
                   Call us: <strong>+91 9876543210</strong>
@@ -186,7 +203,6 @@ export default class LandingPage extends Component {
 
         {/* Footer Section */}
         <Footer />
-
       </div>
     );
   }

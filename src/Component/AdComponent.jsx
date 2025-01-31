@@ -61,17 +61,17 @@ class HospitalAdComponent extends Component {
     const currentAd = this.ads[currentAdIndex];
 
     return (
-      <div className="ad-container mt-4">
+      <div className="ad-container mt-5">
         {currentAd && (
           <div className="ad-card">
-            <h3>{currentAd.title}</h3>
+            <h3 className='text-white'>{currentAd.title}</h3>
             <img
               src={currentAd.image}
               alt={currentAd.title}
               className="img-fluid"
               style={{ width: '100%', maxWidth: '300px', height: 'auto' }}
             />
-            <p>{currentAd.description}</p>
+            <p className='text-white'>{currentAd.description}</p>
           </div>
         )}
       </div>

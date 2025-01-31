@@ -9,6 +9,7 @@ class UpdateAppointment extends Component {
       error: null,
       message: null,
       loading: false,
+      noAppointmentFound: false,
       updateLoading: false,
     };
   }
@@ -22,26 +23,30 @@ class UpdateAppointment extends Component {
       return;
     }
 
-    this.setState({ loading: true, error: null });
+    this.setState({ loading: true, error: null, appointmentDetails: null, noAppointmentFound: false, });
 
     try {
       const response = await fetch(
         `http://localhost:8080/Appointment/id/${appointmentID}`
       );
-      if (!response.ok) {
-        throw new Error("Failed to fetch appointment details.");
-      }
+
       const data = await response.json();
       console.log("Fetched Data:", data);
 
-      if (data.Status === "ACCEPTED") {
-        this.setState({ appointmentDetails: data.Data, loading: false });
+      if (response.ok && data.Status === "ACCEPTED" && data.Data) {
+        this.setState({ appointmentDetails: data.Data, loading: false, noAppointmentFound: false, });
       } else {
-        this.setState({ error: data.Response, loading: false });
+        this.setState({
+          noAppointmentFound: true,
+          loading: false,
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
-      this.setState({ error: error.message, loading: false });
+      console.error("Error:", error.message);
+      this.setState({
+        error: error.message || "An unexpected error occurred.",
+        loading: false,
+      });
     }
   };
 
@@ -57,7 +62,7 @@ class UpdateAppointment extends Component {
     }
     current[keys[keys.length - 1]] = value;
 
-    this.setState({ appointmentDetails: updatedDetails });
+    this.setState({ appointmentDetails: updatedDetails, noAppointmentFound: false, });
   };
 
   // Update appointment details
@@ -65,7 +70,7 @@ class UpdateAppointment extends Component {
     const { appointmentDetails } = this.state;
 
     if (!appointmentDetails) {
-      this.setState({ error: "No appointment details to update." });
+      this.setState({ error: "No data found for the given Appointment ID." });
       return;
     }
 
@@ -77,6 +82,7 @@ class UpdateAppointment extends Component {
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify(appointmentDetails),
       });
       if (!response.ok) {
@@ -98,7 +104,7 @@ class UpdateAppointment extends Component {
           message: "",
         });
       }
-      
+
       //alert("Appointment updated successfully!");
       this.setState({ updateLoading: false });
     } catch (error) {
@@ -114,6 +120,7 @@ class UpdateAppointment extends Component {
       error,
       loading,
       updateLoading,
+      noAppointmentFound,
       message,
     } = this.state;
 
@@ -144,6 +151,12 @@ class UpdateAppointment extends Component {
 
         {/* Error Message */}
         {error && <div className="alert alert-danger">{error}</div>}
+
+        {/* No Appointment Found Message */}
+        {!loading && noAppointmentFound && (
+          <p className="text-danger mt-3">No appointment found for the given ID.</p>
+        )}
+
 
         {/* Display Appointment Details */}
         {appointmentDetails && (
@@ -176,7 +189,7 @@ class UpdateAppointment extends Component {
                 name="status"
                 value={appointmentDetails.status || ""}
                 onChange={this.handleChange}
-                
+
               >
                 <option value="Scheduled">Scheduled</option>
                 <option value="Cancelled">Cancelled</option>
@@ -229,7 +242,7 @@ class UpdateAppointment extends Component {
               {updateLoading ? "Updating..." : "Update Appointment"}
             </button>
             {message && <p className="text-success mt-3">{message}</p>}
-        {error && <p className="text-danger mt-3">{error}</p>}
+            {error && <p className="text-danger mt-3">{error}</p>}
           </form>
         )}
       </div>

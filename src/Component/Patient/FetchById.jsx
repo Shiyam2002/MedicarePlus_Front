@@ -61,11 +61,19 @@ export default class FetchPatientByName extends Component {
       })
       .then((data) => {
         const { Response, Data } = data;
-        this.setState({
-          patients: Array.isArray(Data) ? Data : [Data],
-          responseMessage: Response,
-          loading: false,
-        });
+        if (!Data || (Array.isArray(Data) && Data.length === 0)) {
+          this.setState({
+            patients: [],
+            responseMessage: "No data found",
+            loading: false,
+          });
+        } else {
+          this.setState({
+            patients: Array.isArray(Data) ? Data : [Data],
+            responseMessage: Response,
+            loading: false,
+          });
+        }
       })
       .catch((error) => {
         this.setState({
@@ -146,6 +154,8 @@ export default class FetchPatientByName extends Component {
         {loading && <p className="text-info">Loading...</p>}
         {error && <p className="text-danger">{error}</p>}
         {responseMessage && <p className="text-success">{responseMessage}</p>}
+
+        
 
         {/* Display Multiple Patients in Cards */}
         {patients.length > 0 && !selectedPatient && (

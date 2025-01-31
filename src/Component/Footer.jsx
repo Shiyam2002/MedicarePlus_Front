@@ -51,7 +51,7 @@ export default class Footer extends Component {
         <p>
           Contact us: <a href="mailto:contact@website.com" style={{ color: '#EEF1BD', textDecoration: 'underline' }}>contact@website.com</a> | Phone: +123 456 7890
         </p>
-        <p>© 2024 Your Company Name. All rights reserved.</p>
+        <p>© 2024 Medicare+. All rights reserved.</p>
       </footer>
     );
   }

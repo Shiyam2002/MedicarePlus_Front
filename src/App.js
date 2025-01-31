@@ -1,15 +1,16 @@
 import React, { Component } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Navbar, Nav, Button } from "react-bootstrap";
 import { Route, NavLink, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
 import Footer from "./Component/Footer";
-import AddPatient from "./Component/Patient/Add/AddPatient";
+import AddPatient from "./Component/Patient/AddPatient";
 import FetchById from "./Component/Patient/FetchById";
 import FetchAll from "./Component/Patient/FetchAll";
 import DeletePatient from "./Component/Patient/DeletePatient";
 import UpdatePatient from "./Component/Patient/UpdatePatient";
 import AdComponent from "./Component/AdComponent";
 import LoginPage from "./Component/LoginPage";
-import LandingPage from "./Component/landingPage"
+import LandingPage from "./Component/LandingPage"
 import Reports from "./Component/Patient/Reports";
 import HomePage from "./Component/HomePage";
 import Appointment from "./Component/Appointment/Appointment";
@@ -49,14 +50,43 @@ class App extends Component {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto">
+
+                  {/* <div className="dropdown">
+                    <button
+                      className="btn btn-dark dropdown-toggle mr-2"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" // Note: Use `data-bs-toggle` for Bootstrap 5
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      Appointment Reports
+                    </button>
+                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a className="dropdown-item" href="#">
+                        Patient Appointment Lists
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Appointments for a Date
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Status reports
+                      </a>
+                      <NavLink to="/addPatient" className="nav-link ">Patient Appointment Lists</NavLink>
+                      <NavLink to="/addPatient" className="nav-link ">Appointments for a Date</NavLink>
+                      <NavLink to="/addPatient" className="nav-link ">Status reports</NavLink>
+                    </div>
+                  </div> */}
+
                   <Button
                     variant="outline-light"
                     onClick={this.handleLogout}
-                    className="ml-3"
+                    className="mr-3"
                     size="sm"
                   >
                     Logout
                   </Button>
+
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
@@ -120,7 +150,16 @@ class App extends Component {
                   </Col>
 
                   {/* Ad Component */}
-                  <Col xs={2} className="ads-section">
+                  <Col xs={2} className="ads-section mt-3" style={{
+                    backgroundColor: "#343a40",
+                    color: "white",
+                    padding: "15px",
+                    borderRadius: "15px",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.15)",
+                     height: "auto",
+                    overflowY: "auto",
+                    marginTop: "10px"
+                  }}>
                     <AdComponent />
                   </Col>
                 </>
